@@ -15,7 +15,8 @@ export function SignUp() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input defaultValue={""} placeholder="Email" {...register("email" , { required: true})} />
+        <input placeholder="display name" {...register("displayName", { required: true })} />
+        <input defaultValue={""} placeholder="Email" {...register("email", { required: true })} />
         {errors.password && <span>This field is required</span>}
         <input
           placeholder="password"

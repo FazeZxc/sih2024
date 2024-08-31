@@ -9,6 +9,8 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCU98N7hh6v8HvY_nE8LuDzghrOLAM25Qg",
@@ -23,19 +25,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+const firestoreDB = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 const FirebaseContext = createContext(null);
-
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useFirebase = () => useContext(FirebaseContext);
 
 export const FirebaseProvider = (props) => {
   const signUpUser = (data) => {
+    console.log(data);
     createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then((value) =>
-        console.log("created an account with gmail " + value.user.email)
-      )
+      .then((value) => {
+        putData(value);
+        console.log("created an account with gmail " + value.user.email);
+      })
       .catch((error) => console.log(error));
   };
 
@@ -51,17 +55,56 @@ export const FirebaseProvider = (props) => {
       .catch((error) => console.log(error));
   };
 
-  const putData = () => {
-    set(ref(db, "users/abhinav"), {
-      id: 1,
-      name: "Abhinav",
-      age: 20,
-    });
+  const putData = async (data) => {
+    await setDoc(doc(firestoreDB, "users", data.uid), data);
   };
 
+  const assignRole = async (userId, role) => {
+    try {
+      await setDoc(doc(firestoreDB, "user", userId), { role });
+      console.log("roll assigned: " + role);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const checkUserRole = async (userId) => {
+    try {
+      const userDoc = await getDoc(doc(firestoreDB, "users", userId));
+      if (userDoc.exists()) {
+        const role = userDoc.data().role;
+        return role;
+      } else {
+        console.log("no such document");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const updateProfile = async (userId, profileData) => {
+    try {
+      await setDoc(doc(firestoreDB, "users", userId), profileData, {
+        merge: true,
+      });
+      console.log("Profile Updated");
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
   return (
     <FirebaseContext.Provider
-      value={{ signUpUser, signInUser, putData, signInWithGoogle }}
+      value={{
+        auth,
+        firestoreDB,
+        signUpUser,
+        signInUser,
+        putData,
+        signInWithGoogle,
+        assignRole,
+        checkUserRole,
+        updateProfile,
+      }}
     >
       {props.children}
     </FirebaseContext.Provider>
