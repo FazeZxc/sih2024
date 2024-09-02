@@ -5,8 +5,9 @@ import { useFirebase } from "./context/firebase";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import UserProfile from "./pages/profile";
-
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import InventoryManagement from "./pages/inventory";
+import InventoryList from "./components/viewInventory";
 function App() {
   const firebase = useFirebase();
   const [user, setUser] = useState(null);
@@ -21,8 +22,6 @@ function App() {
     });
   });
 
-
-
   if (user === null) {
     return (
       <>
@@ -35,7 +34,13 @@ function App() {
     <>
       <h1>Hello </h1>
       <button onClick={() => signOut(firebase.auth)}>Log Out</button>
-      <UserProfile/>
+      <Router>
+        <Routes>
+          <Route path="/" element={<InventoryManagement />} />
+          {/* Other routes */}
+        </Routes>
+      </Router>
+      {/* <UserProfile/> */}
     </>
   );
 }
