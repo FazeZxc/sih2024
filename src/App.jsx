@@ -8,6 +8,7 @@ import UserProfile from "./pages/profile";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import InventoryManagement from "./pages/inventory";
 import InventoryList from "./components/viewInventory";
+import OrderManagement from "./pages/orderManagement";
 function App() {
   const firebase = useFirebase();
   const [user, setUser] = useState(null);
@@ -37,6 +38,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<InventoryManagement />} />
+          <Route path="/orders" element={<OrderManagement />} />
           {/* Other routes */}
         </Routes>
       </Router>
