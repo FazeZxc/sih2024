@@ -8,9 +8,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
-import { v4 as uuidv4 } from "uuid";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCU98N7hh6v8HvY_nE8LuDzghrOLAM25Qg",
@@ -24,7 +22,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getDatabase(app);
 const firestoreDB = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 const FirebaseContext = createContext(null);

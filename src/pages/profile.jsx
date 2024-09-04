@@ -17,9 +17,11 @@ const UserProfile = () => {
     const fetchUserProfile = async () => {
       try {
         const user = firebase.auth.currentUser;
-        if (user) {            
-            console.log(user);
-          const userDoc = await getDoc(doc(firebase.firestoreDB, "users", user.uid));
+        if (user) {
+          console.log(user);
+          const userDoc = await getDoc(
+            doc(firebase.firestoreDB, "users", user.uid)
+          );
           if (userDoc.exists()) {
             setUserData(userDoc.data());
           }
@@ -48,10 +50,13 @@ const UserProfile = () => {
     try {
       const user = firebase.auth.currentUser;
       if (user) {
-        await setDoc(doc(firebase.db, "users", user.uid), userData, { merge: true });
+        await setDoc(doc(firebase.db, "users", user.uid), userData, {
+          merge: true,
+        });
         alert("Profile updated successfully.");
       }
     } catch (error) {
+      console.log(error.message);
       setError("Failed to update profile.");
     }
   };

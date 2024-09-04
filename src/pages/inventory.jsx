@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import InventoryList from '../components/viewInventory';
-import AddDrug from '../components/addInventory';
-import UpdateDrug from '../components/updateInventory';
+import InventoryList from '../components/inventory/viewInventory';
+import AddDrug from '../components/inventory/addInventory';
+import UpdateDrug from '../components/inventory/updateInventory';
 
 const InventoryManagement = () => {
   const [selectedDrugId, setSelectedDrugId] = useState(null);
