@@ -2,12 +2,12 @@
 // Chakra imports
 import { Text, useColorModeValue } from "@chakra-ui/react";
 // Assets
-import Project1 from "assets/img/profile/Project1.png";
-import Project2 from "assets/img/profile/Project2.png";
-import Project3 from "assets/img/profile/Project3.png";
+import Project1 from "../../../../assets/img/profile/Project1.png";
+import Project2 from "../../../../assets/img/profile/Project2.png";
+import Project3 from "../../../../assets/img/profile/Project3.png";
 // Custom components
-import Card from "components/card/Card.js";
-import Project from "views/admin/profile/components/Project";
+import Card from "../../../../components/card/Card.jsx";
+import Project from "./Project";
 
 export default function Projects(props) {
   // Chakra Color Mode

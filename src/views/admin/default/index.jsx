@@ -1,5 +1,3 @@
-
-
 // Chakra imports
 import {
     Avatar,
@@ -12,30 +10,30 @@ import {
     useColorModeValue,
   } from "@chakra-ui/react";
   // Assets
-  import Usa from "assets/img/dashboards/usa.png";
+  import Usa from "../../../assets/img/dashboards/usa.png";
   // Custom components
-  import MiniCalendar from "components/calendar/MiniCalendar";
-  import MiniStatistics from "components/card/MiniStatistics";
-  import IconBox from "components/icons/IconBox";
+  import MiniCalendar from "../../../components/calendar/MiniCalendar";
+  import MiniStatistics from "../../../components/card/MiniStatistics";
+  import IconBox from "../../../components/icons/IconBox";
   import {
     MdAddTask,
     MdAttachMoney,
     MdBarChart,
     MdFileCopy,
   } from "react-icons/md";
-  import CheckTable from "views/admin/default/components/CheckTable";
-  import ComplexTable from "views/admin/default/components/ComplexTable";
-  import DailyTraffic from "views/admin/default/components/DailyTraffic";
-  import PieCard from "views/admin/default/components/PieCard";
-  import Tasks from "views/admin/default/components/Tasks";
-  import TotalSpent from "views/admin/default/components/TotalSpent";
-  import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
+  import CheckTable from "../../admin/default/components/CheckTable";
+  import ComplexTable from "../../admin/default/components/ComplexTable";
+  import DailyTraffic from "../../admin/default/components/DailyTraffic";
+  import PieCard from "../../admin/default/components/PieCard";
+  import Tasks from "../../admin/default/components/Tasks";
+  import TotalSpent from "../../admin/default/components/TotalSpent";
+  import WeeklyRevenue from "../../admin/default/components/WeeklyRevenue";
   import {
     columnsDataCheck,
     columnsDataComplex,
-  } from "views/admin/default/variables/columnsData";
-  import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
-  import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
+  } from "../../admin/default/variables/columnsData";
+  import tableDataCheck from "../../admin/default/variables/tableDataCheck.json";
+  import tableDataComplex from "../../admin/default/variables/tableDataComplex.json";
   
   export default function UserReports() {
     // Chakra Color Mode
@@ -58,8 +56,8 @@ import {
                 }
               />
             }
-            name='Earnings'
-            value='$350.4'
+            name='Total Inventory'
+            value='12500'
           />
           <MiniStatistics
             startContent={
@@ -72,43 +70,10 @@ import {
                 }
               />
             }
-            name='Spend this month'
-            value='$642.39'
+            name='Revenue'
+            value='$12313'
           />
-          <MiniStatistics growth='+23%' name='Sales' value='$574.34' />
-          <MiniStatistics
-            endContent={
-              <Flex me='-16px' mt='10px'>
-                <FormLabel htmlFor='balance'>
-                  <Avatar src={Usa} />
-                </FormLabel>
-                <Select
-                  id='balance'
-                  variant='mini'
-                  mt='5px'
-                  me='0px'
-                  defaultValue='usd'>
-                  <option value='usd'>USD</option>
-                  <option value='eur'>EUR</option>
-                  <option value='gba'>GBA</option>
-                </Select>
-              </Flex>
-            }
-            name='Your balance'
-            value='$1,000'
-          />
-          <MiniStatistics
-            startContent={
-              <IconBox
-                w='56px'
-                h='56px'
-                bg='linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)'
-                icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
-              />
-            }
-            name='New Tasks'
-            value='154'
-          />
+          <MiniStatistics growth='+2' name='Pending Orders' value='23' />
           <MiniStatistics
             startContent={
               <IconBox
@@ -120,31 +85,9 @@ import {
                 }
               />
             }
-            name='Total Projects'
+            name='Total Users'
             value='2935'
           />
-        </SimpleGrid>
-  
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
-          <TotalSpent />
-          <WeeklyRevenue />
-        </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
-          <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
-          <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
-            <DailyTraffic />
-            <PieCard />
-          </SimpleGrid>
-        </SimpleGrid>
-        <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
-          <ComplexTable
-            columnsData={columnsDataComplex}
-            tableData={tableDataComplex}
-          />
-          <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
-            <Tasks />
-            <MiniCalendar h='100%' minW='100%' selectRange={false} />
-          </SimpleGrid>
         </SimpleGrid>
       </Box>
     );

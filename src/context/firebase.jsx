@@ -7,6 +7,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signOut,
 } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
@@ -28,7 +29,6 @@ const FirebaseContext = createContext(null);
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useFirebase = () => useContext(FirebaseContext);
-
 export const FirebaseProvider = (props) => {
   const signUpUser = (data) => {
     console.log(data);
@@ -50,6 +50,16 @@ export const FirebaseProvider = (props) => {
     signInWithPopup(auth, googleProvider)
       .then((value) => console.log("signed in as " + value.user.email))
       .catch((error) => console.log(error));
+  };
+
+  const signOutFirebase = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
   };
 
   const putData = async (data) => {
@@ -101,6 +111,7 @@ export const FirebaseProvider = (props) => {
         assignRole,
         checkUserRole,
         updateProfile,
+        signOutFirebase
       }}
     >
       {props.children}

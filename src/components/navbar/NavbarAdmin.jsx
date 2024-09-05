@@ -4,10 +4,12 @@ import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Link, Text, useC
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import AdminNavbarLinks from './NavbarLinksAdmin';
+import { useFirebase } from '../../context/firebase';
 
 export default function AdminNavbar(props) {
 	const [ scrolled, setScrolled ] = useState(false);
-
+	const firebase = useFirebase();
+	
 	useEffect(() => {
 		window.addEventListener('scroll', changeNavbar);
 

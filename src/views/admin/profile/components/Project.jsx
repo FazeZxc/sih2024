@@ -10,7 +10,7 @@ import {
     useColorModeValue,
   } from "@chakra-ui/react";
   // Custom components
-  import Card from "components/card/Card.js";
+  import Card from "../../../../components/card/Card.jsx";
   // Assets
   import { MdEdit } from "react-icons/md";
   

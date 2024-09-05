@@ -2,18 +2,20 @@
 import { Box, Grid } from "@chakra-ui/react";
 
 // Custom components
-import Banner from "views/admin/profile/components/Banner";
-import General from "views/admin/profile/components/General";
-import Notifications from "views/admin/profile/components/Notifications";
-import Projects from "views/admin/profile/components/Projects";
-import Storage from "views/admin/profile/components/Storage";
-import Upload from "views/admin/profile/components/Upload";
+import Banner from "../../admin/profile/components/Banner";
+import General from "../../admin/profile/components/General";
+import Notifications from "../../admin/profile/components/Notifications";
+import Projects from "../../admin/profile/components/Projects";
+import Storage from "../../admin/profile/components/Storage";
+import Upload from "../../admin/profile/components/Upload";
 
 // Assets
-import banner from "assets/img/auth/banner.png";
-import avatar from "assets/img/avatars/avatar4.png";
+import banner from "../../../assets/img/auth/banner.png";
+import avatar from "../../../assets/img/avatars/avatar4.png";
+import { useFirebase } from "../../../context/firebase";
 
 export default function Overview() {
+  const firebase = useFirebase();
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       {/* Main Fields */}
@@ -30,26 +32,9 @@ export default function Overview() {
         <Banner
           gridArea='1 / 1 / 2 / 2'
           banner={banner}
-          avatar={avatar}
-          name='Adela Parkson'
+          avatar={firebase.auth.currentUser.photoURL}
+          name={firebase.auth.currentUser.displayName}
           job='Product Designer'
-          posts='17'
-          followers='9.7k'
-          following='274'
-        />
-        <Storage
-          gridArea={{ base: "2 / 1 / 3 / 2", lg: "1 / 2 / 2 / 3" }}
-          used={25.6}
-          total={50}
-        />
-        <Upload
-          gridArea={{
-            base: "3 / 1 / 4 / 2",
-            lg: "1 / 3 / 2 / 4",
-          }}
-          minH={{ base: "auto", lg: "420px", "2xl": "365px" }}
-          pe='20px'
-          pb={{ base: "100px", lg: "20px" }}
         />
       </Grid>
       <Grid

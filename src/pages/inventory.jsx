@@ -9,7 +9,6 @@ const InventoryManagement = () => {
   const handleUpdateClick = (drugId) => {
     setSelectedDrugId(drugId);
   };
-
   return (
     <div className="inventory-management">
       <h1>Inventory Management</h1>

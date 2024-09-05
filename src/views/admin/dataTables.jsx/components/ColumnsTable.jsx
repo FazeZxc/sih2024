@@ -24,7 +24,7 @@ import {
   
   // Custom components
   import Card from '../../../../components/card/Card';
-  import Menu from '../../../../components/menu/mainMenu';
+  import Menu from '../../../../components/menu/MainMenu';
   
   const columnHelper = createColumnHelper();
   

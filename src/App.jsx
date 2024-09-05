@@ -12,9 +12,9 @@ import InventoryList from "./components/inventory/viewInventory";
 import OrderManagement from "./pages/orderManagement";
 import SupplyChainManagement from "./pages/supplyChainManagement";
 import { Button, ChakraProvider } from "@chakra-ui/react";
-import initialTheme from "./themes/theme"
-import AuthLayout from './layout/auth';
-import AdminLayout from './layout/admin';
+import initialTheme from "./themes/theme";
+import AuthLayout from "./layout/auth";
+import AdminLayout from "./layout/admin";
 
 function App() {
   const firebase = useFirebase();
@@ -43,23 +43,25 @@ function App() {
   return (
     <>
       <ChakraProvider theme={currentTheme}>
-        <Routes>
-          <Route path="auth/*" element={<AuthLayout />} />
-          <Route
-            path="admin/*"
-            element={
-              <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
-            }
-          />
-          {/* <Route
+        <Router>
+          <Routes>
+            <Route path="auth/*" element={<AuthLayout />} />
+            <Route
+              path="admin/*"
+              element={
+                <AdminLayout theme={currentTheme} setTheme={setCurrentTheme} />
+              }
+            />
+            {/* <Route
           path="rtl/*"
           element={
             <RTLLayout theme={currentTheme} setTheme={setCurrentTheme} />
-          }
-        />
-        <Route path="/" element={<Navigate to="/admin" replace />} />
-        */}
-        </Routes>
+            }
+            />
+            <Route path="/" element={<Navigate to="/admin" replace />} />
+            */}
+          </Routes>
+        </Router>
       </ChakraProvider>
     </>
   );

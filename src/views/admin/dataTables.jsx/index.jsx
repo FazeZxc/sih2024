@@ -1,6 +1,6 @@
 // Chakra imports
 import { Box, SimpleGrid } from "@chakra-ui/react";
-import DevelopmentTable from "../dataTables.jsx/DevelopmentTable";
+import DevelopmentTable from "../dataTables.jsx/components/DevelopmentTable";
 import CheckTable from "./components/checkTable";
 import ColumnsTable from "../dataTables.jsx/components/ColumnsTable";
 import ComplexTable from "../dataTables.jsx/components/ComplexTable";
@@ -9,11 +9,12 @@ import {
   columnsDataCheck,
   columnsDataColumns,
   columnsDataComplex,
-} from "views/admin/dataTables/variables/columnsData";
-import tableDataDevelopment from "views/admin/dataTables/variables/tableDataDevelopment.json";
-import tableDataCheck from "views/admin/dataTables/variables/tableDataCheck.json";
-import tableDataColumns from "views/admin/dataTables/variables/tableDataColumns.json";
-import tableDataComplex from "views/admin/dataTables/variables/tableDataComplex.json";
+} from "../../admin/dataTables.jsx/variables/columnsData";
+import tableDataDevelopment from "../../admin/dataTables.jsx/variables/tableDataDevelopment.json";
+import tableDataCheck from "../../admin/dataTables.jsx/variables/tableDataCheck.json";
+import tableDataColumns from "../../admin/dataTables.jsx/variables/tableDataColumns.json";
+import tableDataComplex from "../../admin/dataTables.jsx/variables/tableDataComplex.json";
+import InventoryList from "../../../components/inventory/viewInventory";
 
 export default function Settings() {
   // Chakra Color Mode
@@ -22,20 +23,12 @@ export default function Settings() {
       <SimpleGrid
         mb='20px'
         columns={{ sm: 1, md: 2 }}
-        spacing={{ base: "20px", xl: "20px" }}>
-        <DevelopmentTable
-          columnsData={columnsDataDevelopment}
-          tableData={tableDataDevelopment}
-        />
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
+        spacing={{ base: "20px", xl: "20px" }}>   
         <ColumnsTable
           columnsData={columnsDataColumns}
           tableData={tableDataColumns}
         />
-        <ComplexTable
-          columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
-        />
+        <InventoryList />
       </SimpleGrid>
     </Box>
   );
