@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { createContext, useContext } from "react";
 import { initializeApp } from "firebase/app";
 import {
@@ -11,14 +10,15 @@ import {
 } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
+// Use environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyCU98N7hh6v8HvY_nE8LuDzghrOLAM25Qg",
-  authDomain: "sih-backend-27202.firebaseapp.com",
-  projectId: "sih-backend-27202",
-  storageBucket: "sih-backend-27202.appspot.com",
-  messagingSenderId: "418217293849",
-  appId: "1:418217293849:web:db4ef53f745701252f5288",
-  databaseURL: "https://sih-backend-27202-default-rtdb.firebaseio.com",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -31,7 +31,6 @@ const FirebaseContext = createContext(null);
 export const useFirebase = () => useContext(FirebaseContext);
 export const FirebaseProvider = (props) => {
   const signUpUser = (data) => {
-    console.log(data);
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((value) => {
         putData(value);
@@ -94,11 +93,11 @@ export const FirebaseProvider = (props) => {
       await setDoc(doc(firestoreDB, "users", userId), profileData, {
         merge: true,
       });
-      console.log("Profile Updated");
     } catch (error) {
       console.error(error.message);
     }
   };
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -111,7 +110,7 @@ export const FirebaseProvider = (props) => {
         assignRole,
         checkUserRole,
         updateProfile,
-        signOutFirebase
+        signOutFirebase,
       }}
     >
       {props.children}

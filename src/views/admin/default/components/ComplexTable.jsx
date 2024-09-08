@@ -1,242 +1,133 @@
-/* eslint-disable */
-
+import React, { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
 import {
-    Box,
-    Flex,
-    Icon,
-    Progress,
-    Table,
-    Tbody,
-    Td,
-    Text,
-    Th,
-    Thead,
-    Tr,
-    useColorModeValue,
-  } from '@chakra-ui/react';
-  import {
-    createColumnHelper,
-    flexRender,
-    getCoreRowModel,
-    getSortedRowModel,
-    useReactTable,
-  } from '@tanstack/react-table';
-  import Card from '../../../../components/card/Card';
-  import Menu from '../../../../components/menu/MainMenu';
-  import * as React from 'react';
-  import { MdCancel, MdCheckCircle, MdOutlineError } from 'react-icons/md';
-  
-  const columnHelper = createColumnHelper();
-  
-  // const columns = columnsDataCheck;
-  export default function ComplexTable(props) {
-    const { tableData } = props;
-    const [sorting, setSorting] = React.useState([]);
-    const textColor = useColorModeValue('secondaryGray.900', 'white');
-    const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
-    let defaultData = tableData;
-    const columns = [
-      columnHelper.accessor('name', {
-        id: 'name',
-        header: () => (
-          <Text
-            justifyContent="space-between"
-            align="center"
-            fontSize={{ sm: '10px', lg: '12px' }}
-            color="gray.400"
-          >
-            NAME
-          </Text>
-        ),
-        cell: (info) => (
-          <Flex align="center">
-            <Text color={textColor} fontSize="sm" fontWeight="700">
-              {info.getValue()}
-            </Text>
-          </Flex>
-        ),
-      }),
-      columnHelper.accessor('status', {
-        id: 'status',
-        header: () => (
-          <Text
-            justifyContent="space-between"
-            align="center"
-            fontSize={{ sm: '10px', lg: '12px' }}
-            color="gray.400"
-          >
-            STATUS
-          </Text>
-        ),
-        cell: (info) => (
-          <Flex align="center">
-            <Icon
-              w="24px"
-              h="24px"
-              me="5px"
-              color={
-                info.getValue() === 'Approved'
-                  ? 'green.500'
-                  : info.getValue() === 'Disable'
-                  ? 'red.500'
-                  : info.getValue() === 'Error'
-                  ? 'orange.500'
-                  : null
-              }
-              as={
-                info.getValue() === 'Approved'
-                  ? MdCheckCircle
-                  : info.getValue() === 'Disable'
-                  ? MdCancel
-                  : info.getValue() === 'Error'
-                  ? MdOutlineError
-                  : null
-              }
-            />
-            <Text color={textColor} fontSize="sm" fontWeight="700">
-              {info.getValue()}
-            </Text>
-          </Flex>
-        ),
-      }),
-      columnHelper.accessor('date', {
-        id: 'date',
-        header: () => (
-          <Text
-            justifyContent="space-between"
-            align="center"
-            fontSize={{ sm: '10px', lg: '12px' }}
-            color="gray.400"
-          >
-            DATE
-          </Text>
-        ),
-        cell: (info) => (
-          <Text color={textColor} fontSize="sm" fontWeight="700">
-            {info.getValue()}
-          </Text>
-        ),
-      }),
-      columnHelper.accessor('progress', {
-        id: 'progress',
-        header: () => (
-          <Text
-            justifyContent="space-between"
-            align="center"
-            fontSize={{ sm: '10px', lg: '12px' }}
-            color="gray.400"
-          >
-            PROGRESS
-          </Text>
-        ),
-        cell: (info) => (
-          <Flex align="center">
-            <Progress
-              variant="table"
-              colorScheme="brandScheme"
-              h="8px"
-              w="108px"
-              value={info.getValue()}
-            />
-          </Flex>
-        ),
-      }),
-    ];
-    const [data, setData] = React.useState(() => [...defaultData]);
-    const table = useReactTable({
-      data,
-      columns,
-      state: {
-        sorting,
-      },
-      onSortingChange: setSorting,
-      getCoreRowModel: getCoreRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      debugTable: true,
-    });
+  Box,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  Spinner,
+  Text,
+  Flex,
+  Progress,
+  useColorModeValue
+} from '@chakra-ui/react';
+import { CheckCircleIcon, WarningIcon, CloseIcon } from '@chakra-ui/icons';
+import { useFirebase } from "../../../../context/firebase"
+
+const ComplexTable = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const firebase = useFirebase();
+  const textColor = useColorModeValue('gray.700', 'white');
+  const borderColor = useColorModeValue('gray.200', 'gray.600');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(firebase.firestoreDB, 'yourCollectionName'));
+        const fetchedData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setData(fetchedData);
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching data: ", err);
+        setError('An error occurred while fetching data');
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'Approved':
+        return <CheckCircleIcon color="green.500" />;
+      case 'Error':
+        return <WarningIcon color="orange.500" />;
+      case 'Disable':
+        return <CloseIcon color="red.500" />;
+      default:
+        return null;
+    }
+  };
+
+  if (loading) {
     return (
-      <Card
-        flexDirection="column"
-        w="100%"
-        px="0px"
-        overflowX={{ sm: 'scroll', lg: 'hidden' }}
-      >
-        <Flex px="25px" mb="8px" justifyContent="space-between" align="center">
-          <Text
-            color={textColor}
-            fontSize="22px"
-            fontWeight="700"
-            lineHeight="100%"
-          >
-            Complex Table
-          </Text>
-          <Menu />
-        </Flex>
-        <Box>
-          <Table variant="simple" color="gray.500" mb="24px" mt="12px">
-            <Thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <Tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <Th
-                        key={header.id}
-                        colSpan={header.colSpan}
-                        pe="10px"
-                        borderColor={borderColor}
-                        cursor="pointer"
-                        onClick={header.column.getToggleSortingHandler()}
-                      >
-                        <Flex
-                          justifyContent="space-between"
-                          align="center"
-                          fontSize={{ sm: '10px', lg: '12px' }}
-                          color="gray.400"
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                          {{
-                            asc: '',
-                            desc: '',
-                          }[header.column.getIsSorted()] ?? null}
-                        </Flex>
-                      </Th>
-                    );
-                  })}
-                </Tr>
-              ))}
-            </Thead>
-            <Tbody>
-              {table
-                .getRowModel()
-                .rows.slice(0, 5)
-                .map((row) => {
-                  return (
-                    <Tr key={row.id}>
-                      {row.getVisibleCells().map((cell) => {
-                        return (
-                          <Td
-                            key={cell.id}
-                            fontSize={{ sm: '14px' }}
-                            minW={{ sm: '150px', md: '200px', lg: 'auto' }}
-                            borderColor="transparent"
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
-                          </Td>
-                        );
-                      })}
-                    </Tr>
-                  );
-                })}
-            </Tbody>
-          </Table>
-        </Box>
-      </Card>
+      <Flex justify="center" align="center" height="200px">
+        <Spinner size="xl" />
+      </Flex>
     );
   }
-  
+
+  if (error) {
+    return (
+      <Flex justify="center" align="center" height="200px">
+        <Text color="red.500">{error}</Text>
+      </Flex>
+    );
+  }
+
+  return (
+    <Box overflowX="auto">
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th color="gray.400">Name</Th>
+              <Th color="gray.400">Status</Th>
+              <Th color="gray.400">Date</Th>
+              <Th color="gray.400">Progress</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {data.map((row) => (
+              <Tr key={row.id}>
+                <Td>
+                  <Text color={textColor} fontWeight="bold" fontSize="sm">
+                    {row.name}
+                  </Text>
+                </Td>
+                <Td>
+                  <Flex align="center">
+                    {getStatusIcon(row.status)}
+                    <Text color={textColor} fontSize="sm" fontWeight="bold" ml={2}>
+                      {row.status}
+                    </Text>
+                  </Flex>
+                </Td>
+                <Td>
+                  <Text color={textColor} fontSize="sm" fontWeight="bold">
+                    {row.date}
+                  </Text>
+                </Td>
+                <Td>
+                  <Flex align="center">
+                    <Progress
+                      value={row.progress}
+                      size="sm"
+                      colorScheme="blue"
+                      width="100px"
+                    />
+                    <Text color={textColor} fontSize="sm" fontWeight="bold" ml={2}>
+                      {row.progress}%
+                    </Text>
+                  </Flex>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
+};
+
+export default ComplexTable;

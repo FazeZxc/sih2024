@@ -1,95 +1,97 @@
-// Chakra imports
-import {
-    Avatar,
-    Box,
-    Flex,
-    FormLabel,
-    Icon,
-    Select,
-    SimpleGrid,
-    useColorModeValue,
-  } from "@chakra-ui/react";
-  // Assets
-  import Usa from "../../../assets/img/dashboards/usa.png";
-  // Custom components
-  import MiniCalendar from "../../../components/calendar/MiniCalendar";
-  import MiniStatistics from "../../../components/card/MiniStatistics";
-  import IconBox from "../../../components/icons/IconBox";
-  import {
-    MdAddTask,
-    MdAttachMoney,
-    MdBarChart,
-    MdFileCopy,
-  } from "react-icons/md";
-  import CheckTable from "../../admin/default/components/CheckTable";
-  import ComplexTable from "../../admin/default/components/ComplexTable";
-  import DailyTraffic from "../../admin/default/components/DailyTraffic";
-  import PieCard from "../../admin/default/components/PieCard";
-  import Tasks from "../../admin/default/components/Tasks";
-  import TotalSpent from "../../admin/default/components/TotalSpent";
-  import WeeklyRevenue from "../../admin/default/components/WeeklyRevenue";
-  import {
-    columnsDataCheck,
-    columnsDataComplex,
-  } from "../../admin/default/variables/columnsData";
-  import tableDataCheck from "../../admin/default/variables/tableDataCheck.json";
-  import tableDataComplex from "../../admin/default/variables/tableDataComplex.json";
-  
-  export default function UserReports() {
-    // Chakra Color Mode
-    const brandColor = useColorModeValue("brand.500", "white");
-    const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
-    return (
-      <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-        <SimpleGrid
-          columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
-          gap='20px'
-          mb='20px'>
-          <MiniStatistics
-            startContent={
-              <IconBox
-                w='56px'
-                h='56px'
-                bg={boxBg}
-                icon={
-                  <Icon w='32px' h='32px' as={MdBarChart} color={brandColor} />
-                }
-              />
-            }
-            name='Total Inventory'
-            value='12500'
-          />
-          <MiniStatistics
-            startContent={
-              <IconBox
-                w='56px'
-                h='56px'
-                bg={boxBg}
-                icon={
-                  <Icon w='32px' h='32px' as={MdAttachMoney} color={brandColor} />
-                }
-              />
-            }
-            name='Revenue'
-            value='$12313'
-          />
-          <MiniStatistics growth='+2' name='Pending Orders' value='23' />
-          <MiniStatistics
-            startContent={
-              <IconBox
-                w='56px'
-                h='56px'
-                bg={boxBg}
-                icon={
-                  <Icon w='32px' h='32px' as={MdFileCopy} color={brandColor} />
-                }
-              />
-            }
-            name='Total Users'
-            value='2935'
-          />
-        </SimpleGrid>
-      </Box>
+import { useEffect, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import MiniStatistics from "../../../components/card/MiniStatistics";
+import { Box, SimpleGrid, Icon } from "@chakra-ui/react";
+import { MdAttachMoney, MdBarChart, MdFileCopy } from "react-icons/md";
+import { useFirebase } from "../../../context/firebase";
+
+export default function Dashboard() {
+  const firebase = useFirebase();
+  const [statistics, setStatistics] = useState({
+    totalInventory: 0,
+    revenue: 0,
+    pendingOrders: 0,
+    totalUsers: 0,
+  });
+
+  useEffect(() => {
+    const unsubscribeInventory = onSnapshot(
+      collection(firebase.firestoreDB, "drugs"),
+      (snapshot) => {
+        const totalInventory = snapshot.size; // Example calculation
+        setStatistics((prev) => ({ ...prev, totalInventory }));
+      }
     );
-  }
-  
+
+    const unsubscribeSupplier = onSnapshot(
+      collection(firebase.firestoreDB, "supplier"),
+      (snapshot) => {
+        const totalSuppliers = snapshot.size;
+        setStatistics((prev) => ({ ...prev, totalSuppliers }));
+      }
+    );
+
+    const unsubscribeOrders = onSnapshot(
+      collection(firebase.firestoreDB, "orders"),
+      (snapshot) => {
+        const pendingOrders = snapshot.docs.filter(
+          (doc) => doc.data().status === "Pending"
+        ).length;
+        setStatistics((prev) => ({ ...prev, pendingOrders }));
+      }
+    );
+
+    const unsubscribeUsers = onSnapshot(
+      collection(firebase.firestoreDB, "users"),
+      (snapshot) => {
+        const totalUsers = snapshot.size;
+        setStatistics((prev) => ({ ...prev, totalUsers }));
+      }
+    );
+
+    // Cleanup subscriptions on unmount
+    return () => {
+      unsubscribeInventory();
+      unsubscribeSupplier();
+      unsubscribeOrders();
+      unsubscribeUsers();
+    };
+  }, [firebase.firestoreDB]);
+
+  return (
+    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+      <SimpleGrid
+        columns={{ base: 1, md: 2, lg: 3, "2xl": 4 }}
+        gap="20px"
+        mb="20px"
+      >
+        <MiniStatistics
+          startContent={
+            <Icon w="32px" h="32px" as={MdBarChart} color="brand.500" />
+          }
+          name="Total Inventory"
+          value={statistics.totalInventory}
+        />
+        <MiniStatistics
+          startContent={
+            <Icon w="32px" h="32px" as={MdBarChart} color="brand.500" />
+          }
+          name="Suppliers"
+          value={statistics.totalInventory}
+        />
+        <MiniStatistics
+          growth="+2"
+          name="Pending Orders"
+          value={statistics.pendingOrders}
+        />
+        <MiniStatistics
+          startContent={
+            <Icon w="32px" h="32px" as={MdFileCopy} color="brand.500" />
+          }
+          name="Total Users"
+          value={statistics.totalUsers}
+        />
+      </SimpleGrid>
+    </Box>
+  );
+}
