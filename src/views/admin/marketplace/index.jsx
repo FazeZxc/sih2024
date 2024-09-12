@@ -5,7 +5,6 @@ import {
   Text,
   Button,
   VStack,
-  Spinner,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -16,10 +15,10 @@ import {
   useDisclosure,
   Divider,
   HStack,
+  Skeleton,
 } from "@chakra-ui/react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { useFirebase } from "../../../context/firebase";
-import CreateOrder from "./components/createOrders";
 import OrderList from "./components/viewOrders";
 
 const MarketPlace = () => {
@@ -51,12 +50,6 @@ const MarketPlace = () => {
     fetchOrders();
   }, [firebase.firestoreDB]);
 
-  const handleOrderClick = (order) => {
-    setSelectedOrder(order);
-    setNewStatus(order.status);
-    onOpen();
-  };
-
   const handleStatusChange = async () => {
     try {
       await updateDoc(doc(firebase.firestoreDB, "orders", selectedOrder.id), {
@@ -72,14 +65,14 @@ const MarketPlace = () => {
   };
 
   if (loading) {
-    return <Spinner size="lg" />;
+    return <Skeleton height="100vh"/>;
   }
 
   return (
     <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
         <Box>
-          <Text fontSize="lg" fontWeight="bold">
+          <Text fontSize="lg" fontWeight="bold" fontFamily="monospace">
             Order List
           </Text>
           <HStack>
@@ -87,14 +80,14 @@ const MarketPlace = () => {
               {orders.length > 0 ? (
                 <OrderList />
               ) : (
-                <Text>No orders available.</Text>
+                <Text fontFamily="monospace">No orders available.</Text>
               )}
             </VStack>
           </HStack>
         </Box>
 
         {selectedOrder && (
-          <Box>
+          <Box >
             <Text fontSize="lg" fontWeight="bold">
               Order Details
             </Text>

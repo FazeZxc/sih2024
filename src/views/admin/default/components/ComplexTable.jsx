@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import {
   Box,
@@ -24,7 +24,6 @@ const ComplexTable = () => {
   const [error, setError] = useState(null);
   const firebase = useFirebase();
   const textColor = useColorModeValue('gray.700', 'white');
-  const borderColor = useColorModeValue('gray.200', 'gray.600');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,7 +75,7 @@ const ComplexTable = () => {
   }
 
   return (
-    <Box overflowX="auto">
+    <Box overflowX="scroll" fontFamily="monospace" minHeight="100vh">
       <TableContainer>
         <Table variant="simple">
           <Thead>

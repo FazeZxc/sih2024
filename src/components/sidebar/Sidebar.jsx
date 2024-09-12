@@ -30,7 +30,7 @@ function Sidebar(props) {
     "unset"
   );
   // Chakra Color Mode
-  let sidebarBg = useColorModeValue("white", "navy.800");
+  let sidebarBg = useColorModeValue("teal.900", "navy.800");
   let sidebarMargins = "0px";
 
   // SIDEBAR
@@ -40,6 +40,7 @@ function Sidebar(props) {
       w="100%"
       position="fixed"
       minH="100%"
+      fontFamily="monospace"
     >
       <Box
         bg={sidebarBg}

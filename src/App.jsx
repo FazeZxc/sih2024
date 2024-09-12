@@ -5,6 +5,7 @@ import { SignIn } from "./views/auth/signin";
 import { useFirebase } from "./context/firebase";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
+import { WelcomeScreen } from "./utils/welcomeScreen";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,12 +15,13 @@ import {
 import { ChakraProvider } from "@chakra-ui/react";
 import initialTheme from "./themes/theme";
 import AdminLayout from "./layout/admin";
+import { WelcomeScreenLoggedIn } from "./utils/welcomeScreenLoggedIn";
 
 function App() {
   const firebase = useFirebase();
   const [user, setUser] = useState(null);
   const [currentTheme, setCurrentTheme] = useState(initialTheme);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebase.auth, (user) => {
       if (user) {
@@ -36,9 +38,10 @@ function App() {
       <ChakraProvider theme={currentTheme}>
         <Router>
           <Routes>
+            <Route path="/welcome" element={<WelcomeScreen />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/sign-in" element={<SignIn />} />
-            <Route path="*" element={<Navigate to="/sign-up" />} />
+            <Route path="*" element={<Navigate to="/welcome" />} />
           </Routes>
         </Router>
       </ChakraProvider>
@@ -49,6 +52,7 @@ function App() {
     <ChakraProvider theme={currentTheme}>
       <Router>
         <Routes>
+          <Route path="/welcome" element={<WelcomeScreenLoggedIn />} />
           <Route
             path="admin/*"
             element={

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -14,9 +15,11 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  Spinner,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useFirebase } from "../../context/firebase";
+import { useNavigate } from "react-router-dom";
 
 export function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,10 +30,12 @@ export function SignIn() {
   } = useForm();
   const toast = useToast();
   const firebase = useFirebase();
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
       await firebase.signInUser(data);
+      setLoading(true);
       toast({
         title: "Sign in successful.",
         description: "You've been signed in.",
@@ -38,7 +43,13 @@ export function SignIn() {
         duration: 5000,
         isClosable: true,
       });
+
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/admin");
+      }, 3000);
     } catch (error) {
+      setLoading(false);
       toast({
         title: "An error occurred.",
         description: error.message,
@@ -49,6 +60,27 @@ export function SignIn() {
     }
   };
 
+  if (loading) {
+    return (
+      <Box
+        minHeight="100vh"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        bg="gray.50"
+        fontFamily="monospace"
+        backgroundColor="teal.600"
+      >
+        <VStack spacing={4}>
+          <Spinner size="xl" color="teal.500" />
+          <Text fontSize="lg" color="white">
+            Opening your Dashboard
+          </Text>
+        </VStack>
+      </Box>
+    );
+  }
+
   return (
     <Box
       minHeight="100vh"
@@ -56,6 +88,8 @@ export function SignIn() {
       alignItems="center"
       justifyContent="center"
       bg="gray.50"
+      fontFamily="monospace"
+      backgroundColor="teal.600"
     >
       <Box
         bg="white"
@@ -66,7 +100,7 @@ export function SignIn() {
         width="100%"
       >
         <VStack spacing={6}>
-          <Heading as="h1" size="xl">
+          <Heading as="h1" size="xl" color="teal">
             Sign In
           </Heading>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
@@ -119,7 +153,7 @@ export function SignIn() {
                   </Text>
                 )}
               </FormControl>
-              <Button type="submit" colorScheme="blue" size="lg" width="100%">
+              <Button type="submit" colorScheme="teal" size="lg" width="100%">
                 Sign In
               </Button>
             </VStack>
@@ -135,7 +169,7 @@ export function SignIn() {
           </Button>
           <Text fontSize="sm">
             Don't have an account?{" "}
-            <Link color="blue.500" href="sign-up">
+            <Link color="teal.400" href="sign-up">
               Sign up
             </Link>
           </Text>

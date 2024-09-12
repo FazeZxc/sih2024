@@ -55,20 +55,22 @@ export function SignUp() {
       alignItems="center"
       justifyContent="center"
       bg="gray.50"
+      fontFamily="monospace"
+      backgroundColor="teal.600"
     >
       <Box
         bg="white"
         p={8}
         rounded="md"
         shadow="lg"
-        maxWidth="400px"
+        maxWidth="600px"
         width="100%"
       >
         <VStack spacing={6}>
-          <Heading as="h1" size="xl">
-            Sign Up
+          <Heading as="h1" size="xl" color="teal.400">
+            Create An Account
           </Heading>
-          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }} >
             <VStack spacing={4} align="stretch">
               <FormControl isInvalid={errors.displayName}>
                 <FormLabel htmlFor="displayName">Display Name</FormLabel>
@@ -78,6 +80,7 @@ export function SignUp() {
                   {...register("displayName", {
                     required: "Display name is required",
                   })}
+                  
                 />
                 {errors.displayName && (
                   <Text color="red.500" fontSize="sm">
@@ -137,7 +140,7 @@ export function SignUp() {
                   </Text>
                 )}
               </FormControl>
-              <Button type="submit" colorScheme="blue" size="lg" width="100%">
+              <Button type="submit" colorScheme="teal" size="lg" width="100%" fontFamily="monospace">
                 Sign Up
               </Button>
             </VStack>
@@ -148,12 +151,13 @@ export function SignUp() {
             variant="outline"
             size="lg"
             width="100%"
+            fontFamily="monospace"
           >
             Sign In with Google
           </Button>
-          <Text fontSize="sm">
+          <Text fontSize="sm" fontFamily="monospace">
             Already have an account?{" "}
-            <Link color="blue.500" href="/sign-in">
+            <Link color="teal.500" href="/sign-in">
               Sign in
             </Link>
           </Text>

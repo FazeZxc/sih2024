@@ -1,14 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import {
   Box,
-  Text,
   Button,
   UnorderedList,
   ListItem,
-  Spinner,
-  VStack,
-  Divider,
   Table,
   Thead,
   Tbody,
@@ -24,6 +21,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Skeleton,
 } from "@chakra-ui/react";
 import { useFirebase } from "../../../../context/firebase";
 import CreateOrder from "./createOrders";
@@ -70,16 +68,16 @@ const OrderList = () => {
   };
 
   if (loading) {
-    return <Spinner size="lg" />;
+    return <Skeleton height="100vh"/>;
   }
 
   return (
-    <Box p={8} backgroundColor="white">
-      <Button colorScheme="blue" onClick={onCreateOrderOpen} mb={4}>
+    <Box p={4} backgroundColor="white" fontFamily="monospace">
+      <Button colorScheme="blue" variant="setup" onClick={onCreateOrderOpen} mb={4}>
         Create Order
       </Button>
 
-      <TableContainer>
+      <TableContainer >
         <Table variant="striped">
           <Thead>
             <Tr>
@@ -114,7 +112,7 @@ const OrderList = () => {
                 <Td>{formatDate(order.createdAt)}</Td>
                 <Td>{formatDate(order.updatedAt)}</Td>
                 <Td>
-                  <Button colorScheme="yellow" onClick={() => handleUpdateClick(order.id)}>
+                  <Button colorScheme="yellow" variant="action" onClick={() => handleUpdateClick(order.id)}>
                     Update
                   </Button>
                 </Td>
