@@ -85,7 +85,7 @@ const CreateOrder = () => {
   };
 
   return (
-    <Box p={8} maxW="600px" mx="auto">
+    <Box fontFamily="monospace" p={8} maxW="auto" mx="auto">
       <VStack spacing={6} align="start">
         <Text fontSize="2xl" fontWeight="bold">Create Order</Text>
         {error && (
@@ -142,7 +142,7 @@ const CreateOrder = () => {
                     onChange={handleItemChange}
                   />
                 </FormControl>
-                <Button colorScheme="blue" onClick={handleAddItem}>
+                <Button colorScheme="teal" variant="action" onClick={handleAddItem} width={300}>
                   Add Item
                 </Button>
               </HStack>
@@ -170,7 +170,7 @@ const CreateOrder = () => {
                 readOnly
               />
             </FormControl>
-            <Button type="submit" colorScheme="blue">
+            <Button type="submit" variant="action" colorScheme="blue">
               Create Order
             </Button>
           </VStack>

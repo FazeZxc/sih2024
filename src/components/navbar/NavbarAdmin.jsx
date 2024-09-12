@@ -54,6 +54,7 @@ export default function AdminNavbar(props) {
 
   return (
     <Box
+      fontFamily="monospace"
       position={navbarPosition}
       boxShadow={navbarShadow}
       bg={navbarBg}

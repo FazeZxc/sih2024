@@ -11,9 +11,8 @@ import {
   Heading,
   Text,
   useToast,
-  Spinner,
   InputGroup,
-  InputLeftAddon,
+  Skeleton,
 } from "@chakra-ui/react";
 
 const UserProfile = () => {
@@ -22,7 +21,7 @@ const UserProfile = () => {
     name: "",
     email: "",
     phone: "",
-    role: "",
+    role: "Admin",
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -69,7 +68,8 @@ const UserProfile = () => {
         });
         toast({
           title: "Profile updated.",
-          description: "Your profile information has been updated successfully.",
+          description:
+            "Your profile information has been updated successfully.",
           status: "success",
           duration: 5000,
           isClosable: true,
@@ -90,18 +90,43 @@ const UserProfile = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <Spinner size="xl" />
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Skeleton height="100vh" colorScheme="teal" />
       </Box>
     );
   }
 
   return (
-    <Box maxWidth="600px" mx="auto" p={6} pt={{ base: "130px", md: "80px", xl: "80px" }} borderWidth={1} borderRadius="lg" boxShadow="lg" backgroundColor="white">
-      <Heading as="h2" size="lg" mb={6}>
+    <Box
+      fontFamily="monospace"
+      maxWidth="600px"
+      mx="auto"
+      p={6}
+      pt={{ base: "130px", md: "80px", xl: "80px" }}
+      borderWidth={1}
+      borderRadius="lg"
+      boxShadow="lg"
+      backgroundColor="white"
+    >
+      <Heading
+        as="h2"
+        size="lg"
+        mb={6}
+        fontFamily="monospace"
+        textAlign="center"
+      >
         User Profile
       </Heading>
-      {error && <Text color="red.500" mb={4}>{error}</Text>}
+      {error && (
+        <Text color="red.500" mb={4}>
+          {error}
+        </Text>
+      )}
       <form onSubmit={handleFormSubmit}>
         <VStack spacing={4} align="stretch">
           <FormControl isRequired>
@@ -147,12 +172,18 @@ const UserProfile = () => {
               name="role"
               value={userData.role}
               onChange={handleInputChange}
-              placeholder="Your Role"
+              placeholder="Admin"
               disabled
             />
           </FormControl>
 
-          <Button type="submit" colorScheme="blue" width="full" mt={4}>
+          <Button
+            variant="action"
+            type="submit"
+            colorScheme="blue"
+            width="full"
+            mt={4}
+          >
             Update Profile
           </Button>
         </VStack>

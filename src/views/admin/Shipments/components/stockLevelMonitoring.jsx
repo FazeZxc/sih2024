@@ -15,7 +15,6 @@ import {
   Text,
   VStack,
   Divider,
-  Spinner,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -24,7 +23,8 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
-  IconButton, // Import IconButton
+  IconButton,
+  Skeleton, // Import IconButton
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons"; // Import CloseIcon for delete button
 
@@ -98,11 +98,11 @@ const StockMonitoring = () => {
   };
 
   if (loading) {
-    return <Spinner size="lg" />;
+    return <Skeleton height="100vh" />;
   }
 
   return (
-    <Box p={8}>
+    <Box p={8} fontFamily="monospace">
       <Text fontSize="2xl" fontWeight="bold" mb={4}>
         Stock Monitoring
       </Text>

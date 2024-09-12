@@ -7,12 +7,13 @@ import {
   FormLabel,
   Input,
   VStack,
-  Heading,
   useToast,
 } from "@chakra-ui/react";
 import { useFirebase } from "../../../../context/firebase";
 
 const AddDrug = () => {
+ 
+
   const firebase = useFirebase();
   const [drugData, setDrugData] = useState({
     name: "",
@@ -63,7 +64,7 @@ const AddDrug = () => {
   };
 
   return (
-    <Box p={8} minWidth={500}>
+    <Box p={8} minWidth={500} fontFamily="monospace">
       <form onSubmit={handleFormSubmit}>
         <VStack spacing={4} align="stretch">
           <FormControl id="name" isRequired>

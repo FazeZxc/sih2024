@@ -1,20 +1,15 @@
 import { useState } from "react";
 import InventoryList from "./viewInventory";
-import AddDrug from "./addInventory";
 import UpdateDrug from "./updateInventory";
 import {
   Box,
   Heading,
-  VStack,
   useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalCloseButton,
   ModalBody,
-  ModalFooter,
-  Button,
   HStack,
 } from "@chakra-ui/react";
 
@@ -28,30 +23,26 @@ const InventoryManagement = () => {
   };
 
   return (
-    <Box p={8}>
+    <Box fontFamily="monospace">
       <HStack spacing={8}>
-        <Box flex="1" p={4} bg="gray.50" borderRadius="lg" boxShadow="md">
-          <Heading as="h2" size="lg" mb={4}>
-            Add New Drug
-          </Heading>
-          <AddDrug />
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Update Drug</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <UpdateDrug drugId={selectedDrugId} />
-              </ModalBody>
-              <ModalFooter>
-                <Button colorScheme="blue" mr={3} onClick={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        </Box>
-        <Box minBlockSize={720} minWidth="auto" flex="2" p={4} bg="gray.50" borderRadius="lg" boxShadow="md">
+        <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+          <ModalOverlay />
+          <ModalContent>
+            <ModalCloseButton />
+            <ModalBody>
+              <UpdateDrug drugId={selectedDrugId} />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+        <Box
+          minBlockSize={720}
+          minWidth="auto"
+          flex="2"
+          p={4}
+          bg="gray.50"
+          boxShadow="md"
+          borderRadius={20}
+        >
           <Heading as="h2" size="lg" mb={4}>
             Inventory List
           </Heading>

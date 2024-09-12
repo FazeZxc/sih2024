@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // MiniStatistics.js
 import { Box, Text, Flex, Icon } from "@chakra-ui/react";
 
@@ -5,11 +6,12 @@ const MiniStatistics = ({ startContent, name, value, growth }) => (
   <Box
     p="6"
     bg="white"
-    borderRadius="md"
+    borderRadius="xl"
     shadow="md"
     width="100%"
     display="flex"
     flexDirection="column"
+    fontFamily="monospace"
   >
     <Flex mb="4" align="center">
       {startContent}

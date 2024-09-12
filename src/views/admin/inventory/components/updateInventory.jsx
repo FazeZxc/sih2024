@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import {
   Box,
   Button,
@@ -9,20 +10,19 @@ import {
   VStack,
   Heading,
   Spinner,
-  Text,
   useToast,
-} from '@chakra-ui/react';
-import { useFirebase } from '../../../../context/firebase';
+} from "@chakra-ui/react";
+import { useFirebase } from "../../../../context/firebase";
 
 const UpdateDrug = ({ drugId }) => {
   const firebase = useFirebase();
   const [drugData, setDrugData] = useState({
-    name: '',
-    type: '',
-    quantity: '',
-    batchId: '',
-    expirationDate: '',
-    supplier: '',
+    name: "",
+    type: "",
+    quantity: "",
+    batchId: "",
+    expirationDate: "",
+    supplier: "",
   });
   const [loading, setLoading] = useState(true);
   const toast = useToast();
@@ -30,15 +30,17 @@ const UpdateDrug = ({ drugId }) => {
   useEffect(() => {
     const fetchDrug = async () => {
       try {
-        const drugDoc = await getDoc(doc(firebase.firestoreDB, 'drugs', drugId));
+        const drugDoc = await getDoc(
+          doc(firebase.firestoreDB, "drugs", drugId)
+        );
         if (drugDoc.exists()) {
           setDrugData(drugDoc.data());
         }
       } catch (error) {
         toast({
-          title: 'Error fetching drug.',
+          title: "Error fetching drug.",
           description: error.message,
-          status: 'error',
+          status: "error",
           duration: 5000,
           isClosable: true,
         });
@@ -61,18 +63,20 @@ const UpdateDrug = ({ drugId }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      await setDoc(doc(firebase.firestoreDB, 'drugs', drugId), drugData, { merge: true });
+      await setDoc(doc(firebase.firestoreDB, "drugs", drugId), drugData, {
+        merge: true,
+      });
       toast({
-        title: 'Drug updated successfully.',
-        status: 'success',
+        title: "Drug updated successfully.",
+        status: "success",
         duration: 5000,
         isClosable: true,
       });
     } catch (error) {
       toast({
-        title: 'Error updating drug.',
+        title: "Error updating drug.",
         description: error.message,
-        status: 'error',
+        status: "error",
         duration: 5000,
         isClosable: true,
       });
@@ -81,14 +85,19 @@ const UpdateDrug = ({ drugId }) => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
         <Spinner size="xl" />
       </Box>
     );
   }
 
   return (
-    <Box p={8}>
+    <Box p={8} minWidth={500} fontFamily="monospace">
       <Heading as="h2" size="lg" mb={4}>
         Update Drug
       </Heading>

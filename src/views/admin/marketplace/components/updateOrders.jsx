@@ -66,11 +66,10 @@ const UpdateOrderStatus = ({ orderId }) => {
   }
 
   return (
-    <Box p={8} maxW="400px" mx="auto" borderWidth="1px" borderRadius="md" boxShadow="md">
-      <Text fontSize="2xl" fontWeight="bold" mb={4}>Update Order Status</Text>
+    <Box fontFamily="monospace" p={8} maxW="400px" mx="auto" borderWidth="1px" borderRadius="md" boxShadow="md">
       {orderData && (
         <Box>
-          <Text fontSize="lg" mb={2}><strong>Order ID:</strong> {orderId}</Text>
+          <Text color="red" fontSize="lg" mb={2}><strong>Order ID:</strong> {orderId}</Text>
           <Text fontSize="lg" mb={4}><strong>Current Status:</strong> {orderData.status}</Text>
           <FormControl mb={4}>
             <FormLabel htmlFor="newStatus">New Status</FormLabel>
@@ -85,7 +84,7 @@ const UpdateOrderStatus = ({ orderId }) => {
               <option value="Cancelled">Cancelled</option>
             </Select>
           </FormControl>
-          <Button colorScheme="blue" onClick={handleStatusChange}>
+          <Button colorScheme="blue" variant="action" onClick={handleStatusChange}>
             Update Status
           </Button>
         </Box>

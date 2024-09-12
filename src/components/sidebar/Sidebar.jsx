@@ -30,7 +30,7 @@ function Sidebar(props) {
     "unset"
   );
   // Chakra Color Mode
-  let sidebarBg = useColorModeValue("teal.900", "navy.800");
+  let sidebarBg = useColorModeValue("teal.800", "navy.800");
   let sidebarMargins = "0px";
 
   // SIDEBAR

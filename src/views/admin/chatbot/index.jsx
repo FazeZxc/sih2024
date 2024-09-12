@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   VStack,
@@ -11,24 +11,25 @@ import {
   Flex,
   ChakraProvider,
   extendTheme,
+  Avatar,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import axios from "axios";
+import { useFirebase } from "../../../context/firebase";
 
 // Custom theme
 const theme = extendTheme({
   colors: {
     brand: {
-      50: "#e5f5ff",
-      100: "#b3e0ff",
-      200: "#80ccff",
-      300: "#4db8ff",
-      400: "#1aa3ff",
-      500: "#0080ff",
-      600: "#0066cc",
-      700: "#004d99",
-      800: "#003366",
-      900: "#001a33",
+      100: "#b2dfdb",
+      200: "#80cbc4",
+      300: "#4db6ac",
+      400: "#26a69a",
+      500: "#009688",
+      600: "#00897b",
+      700: "#00796b",
+      800: "#00695c",
+      900: "#004d40",
     },
   },
 });
@@ -108,6 +109,8 @@ const TypingIndicator = () => (
 );
 
 function Chatbot() {
+  const firebase = useFirebase();
+
   const [messages, setMessages] = useState([
     {
       text: "Hello! How can I help you today?",
@@ -180,7 +183,12 @@ function Chatbot() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Container maxW="container.md" h="80vh" pt={{ base: "130px", md: "80px", xl: "80px" }}>
+      <Container
+        maxW="container.md"
+        h="80vh"
+        pt={{ base: "130px", md: "80px", xl: "80px" }}
+        fontFamily="monospace"
+      >
         <VStack h="full" spacing={4}>
           <Flex
             w="full"
@@ -228,7 +236,17 @@ function Chatbot() {
                   >
                     <Text>{message.text}</Text>
                   </Box>
-                  {message.sender === "user" && <UserIcon />}
+                  {message.sender === "user" && (
+                    <Avatar
+                      _hover={{ cursor: "pointer" }}
+                      color="white"
+                      name={firebase.auth.currentUser.displayName}
+                      bg="#11047A"
+                      size="sm"
+                      w="40px"
+                      h="40px"
+                    />
+                  )}
                 </Flex>
               ))}
               {isTyping && (

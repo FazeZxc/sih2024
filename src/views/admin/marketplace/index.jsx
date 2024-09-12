@@ -69,10 +69,10 @@ const MarketPlace = () => {
   }
 
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
-      <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
+    <Box>
+      <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6} >
         <Box>
-          <Text fontSize="lg" fontWeight="bold" fontFamily="monospace">
+          <Text fontSize="xl" fontWeight="bold" fontFamily="monospace" textAlign="center">
             Order List
           </Text>
           <HStack>

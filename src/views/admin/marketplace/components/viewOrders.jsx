@@ -38,8 +38,16 @@ const OrderList = () => {
   const [loading, setLoading] = useState(true);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  const { isOpen: isCreateOrderOpen, onOpen: onCreateOrderOpen, onClose: onCreateOrderClose } = useDisclosure();
-  const { isOpen: isUpdateOrderOpen, onOpen: onUpdateOrderOpen, onClose: onUpdateOrderClose } = useDisclosure();
+  const {
+    isOpen: isCreateOrderOpen,
+    onOpen: onCreateOrderOpen,
+    onClose: onCreateOrderClose,
+  } = useDisclosure();
+  const {
+    isOpen: isUpdateOrderOpen,
+    onOpen: onUpdateOrderOpen,
+    onClose: onUpdateOrderClose,
+  } = useDisclosure();
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
@@ -68,17 +76,22 @@ const OrderList = () => {
   };
 
   if (loading) {
-    return <Skeleton height="100vh"/>;
+    return <Skeleton height="100vh" />;
   }
 
   return (
-    <Box p={4} backgroundColor="white" fontFamily="monospace">
-      <Button colorScheme="blue" variant="setup" onClick={onCreateOrderOpen} mb={4}>
+    <Box p={4} backgroundColor="white" fontFamily="monospace" borderRadius={20}>
+      <Button
+        colorScheme="blue"
+        variant="setup"
+        onClick={onCreateOrderOpen}
+        mb={4}
+      >
         Create Order
       </Button>
 
-      <TableContainer >
-        <Table variant="striped">
+      <TableContainer>
+        <Table variant="striped" colorScheme="teal">
           <Thead>
             <Tr>
               <Th>Order ID</Th>
@@ -86,9 +99,9 @@ const OrderList = () => {
               <Th>Status</Th>
               <Th>Total Amount</Th>
               <Th>Items</Th>
-              <Th>Shipping Details</Th>
-              <Th>Created At</Th>
-              <Th>Updated At</Th>
+              {/* <Th>Shipping Details</Th> */}
+              {/* <Th>Created At</Th>
+              <Th>Updated At</Th> */}
               <Th>Actions</Th>
             </Tr>
           </Thead>
@@ -103,16 +116,21 @@ const OrderList = () => {
                   <UnorderedList>
                     {order.items.map((item, index) => (
                       <ListItem key={index}>
-                        {item.name} - {item.quantity} x ${item.price} = ${item.quantity * item.price}
+                        {item.name} - {item.quantity} x ${item.price} = $
+                        {item.quantity * item.price}
                       </ListItem>
                     ))}
                   </UnorderedList>
                 </Td>
-                <Td>{order.shippingDetails}</Td>
-                <Td>{formatDate(order.createdAt)}</Td>
-                <Td>{formatDate(order.updatedAt)}</Td>
+                {/* <Td>{order.shippingDetails}</Td> */}
+                {/* <Td>{formatDate(order.createdAt)}</Td>
+                  <Td>{formatDate(order.updatedAt)}</Td> */}
                 <Td>
-                  <Button colorScheme="yellow" variant="action" onClick={() => handleUpdateClick(order.id)}>
+                  <Button
+                    colorScheme="yellow"
+                    variant="action"
+                    onClick={() => handleUpdateClick(order.id)}
+                  >
                     Update
                   </Button>
                 </Td>
@@ -124,7 +142,10 @@ const OrderList = () => {
 
       {/* Create Order Modal */}
       {isCreateOrderOpen && (
-        <CreateOrderModal isOpen={isCreateOrderOpen} onClose={onCreateOrderClose} />
+        <CreateOrderModal
+          isOpen={isCreateOrderOpen}
+          onClose={onCreateOrderClose}
+        />
       )}
 
       {/* Update Order Status Modal */}
@@ -144,16 +165,10 @@ const CreateOrderModal = ({ isOpen, onClose }) => (
   <Modal isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>
-      <ModalHeader>Create Order</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
         <CreateOrder />
       </ModalBody>
-      <ModalFooter>
-        <Button colorScheme="blue" mr={3} onClick={onClose}>
-          Close
-        </Button>
-      </ModalFooter>
     </ModalContent>
   </Modal>
 );
@@ -163,15 +178,12 @@ const UpdateOrderStatusModal = ({ isOpen, onClose, orderId }) => (
   <Modal isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>
-      <ModalHeader>Update Order Status</ModalHeader>
+      <ModalHeader fontFamily="monospace">Update Order Status</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
         <UpdateOrderStatus orderId={orderId} />
       </ModalBody>
       <ModalFooter>
-        <Button colorScheme="blue" mr={3} onClick={onClose}>
-          Close
-        </Button>
       </ModalFooter>
     </ModalContent>
   </Modal>
