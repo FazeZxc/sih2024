@@ -1,23 +1,35 @@
+/* eslint-disable react/prop-types */
 // Chakra Imports
 import {
   Avatar,
   Flex,
-  Icon,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Text,
   useColorModeValue,
-  useColorMode,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  IconButton,
 } from "@chakra-ui/react";
 // Custom Components
 import { SidebarResponsive } from "../sidebar/Sidebar";
 import PropTypes from "prop-types";
 // Assets
-import { FaEthereum } from "react-icons/fa";
 import routes from "../../routes";
 import { useFirebase } from "../../context/firebase";
+import { BellIcon } from "@chakra-ui/icons";
+import { Notifications } from "../../utils/notifications";
+import { useEffect, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
 export default function HeaderLinks(props) {
   const { secondary } = props;
   const firebase = useFirebase();
@@ -32,6 +44,27 @@ export default function HeaderLinks(props) {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.18)",
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
+  const [color, setColor] = useState("teal");
+  const [notifications, setNotifications] = useState([]);
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(firebase.firestoreDB, "notifications"),
+      (querySnapshot) => {
+        const notificationList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setNotifications(notificationList);
+        if (notifications.length != 0) {
+          setColor("red");
+        }
+      },
+      (error) => {
+        console.error("Error fetching Notifications:", error.message);
+      }
+    );
+    return () => unsubscribe();
+  }, []);
   return (
     <Flex
       w={{ sm: "100%", md: "auto" }}
@@ -43,7 +76,6 @@ export default function HeaderLinks(props) {
       borderRadius="30px"
       boxShadow={shadow}
     >
-
       <Flex
         bg={ethBg}
         display={secondary ? "flex" : "none"}
@@ -61,10 +93,11 @@ export default function HeaderLinks(props) {
           w="29px"
           borderRadius="30px"
           me="7px"
-        >
-        </Flex>
+        ></Flex>
       </Flex>
       <SidebarResponsive routes={routes} />
+
+      <NotificationModal color={color} />
       <Menu>
         <MenuButton p="0px">
           <Avatar
@@ -109,7 +142,7 @@ export default function HeaderLinks(props) {
             >
               <Text fontSize="sm">Profile Settings</Text>
             </MenuItem>
-            
+
             <MenuItem
               _hover={{ bg: "none" }}
               _focus={{ bg: "none" }}
@@ -126,7 +159,27 @@ export default function HeaderLinks(props) {
     </Flex>
   );
 }
+function NotificationModal({ color }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  return (
+    <>
+      <IconButton
+        icon={<BellIcon onClick={onOpen} w={12} h={8} color={color} />}
+      />
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent fontFamily="monospace">
+          <ModalHeader>Notifications</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody p={4}>
+            <Notifications />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
 HeaderLinks.propTypes = {
   variant: PropTypes.string,
   fixed: PropTypes.bool,

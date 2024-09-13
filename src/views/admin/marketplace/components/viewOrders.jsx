@@ -22,6 +22,7 @@ import {
   ModalBody,
   ModalFooter,
   Skeleton,
+  Badge,
 } from "@chakra-ui/react";
 import { useFirebase } from "../../../../context/firebase";
 import CreateOrder from "./createOrders";
@@ -110,7 +111,9 @@ const OrderList = () => {
               <Tr key={order.id}>
                 <Td>{order.id}</Td>
                 <Td>{order.customerId}</Td>
-                <Td>{order.status}</Td>
+                <Td>
+                  <Badge>{order.status}</Badge>
+                </Td>
                 <Td>₹{order.totalAmount}</Td>
                 <Td>
                   <UnorderedList>
@@ -183,8 +186,7 @@ const UpdateOrderStatusModal = ({ isOpen, onClose, orderId }) => (
       <ModalBody>
         <UpdateOrderStatus orderId={orderId} />
       </ModalBody>
-      <ModalFooter>
-      </ModalFooter>
+      <ModalFooter></ModalFooter>
     </ModalContent>
   </Modal>
 );
