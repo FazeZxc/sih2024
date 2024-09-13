@@ -73,7 +73,7 @@ const InventoryList = ({ onUpdateClick }) => {
         onClick={onCreateDrugOpen}
         mb={4}
       >
-        Create Supplier
+        Create List
       </Button>
       {drugs.length === 0 ? (
         <Text>No drugs in inventory.</Text>

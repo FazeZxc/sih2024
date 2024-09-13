@@ -65,29 +65,30 @@ const MarketPlace = () => {
   };
 
   if (loading) {
-    return <Skeleton height="100vh"/>;
+    return <Skeleton height="100vh" />;
   }
 
   return (
     <Box>
-      <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6} >
+      <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
         <Box>
-          <Text fontSize="xl" fontWeight="bold" fontFamily="monospace" textAlign="center">
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            fontFamily="monospace"
+            textAlign="center"
+          >
             Order List
           </Text>
           <HStack>
             <VStack spacing={4} align="start" mt={4}>
-              {orders.length > 0 ? (
-                <OrderList />
-              ) : (
-                <Text fontFamily="monospace">No orders available.</Text>
-              )}
+              <OrderList />
             </VStack>
           </HStack>
         </Box>
 
         {selectedOrder && (
-          <Box >
+          <Box>
             <Text fontSize="lg" fontWeight="bold">
               Order Details
             </Text>

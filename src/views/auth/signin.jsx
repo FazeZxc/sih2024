@@ -166,13 +166,13 @@ export function SignIn() {
             width="100%"
           >
             Sign In with Google
-          </Button>
           <Text fontSize="sm">
             Don't have an account?{" "}
             <Link color="teal.400" href="sign-up">
               Sign up
             </Link>
           </Text>
+          </Button>
         </VStack>
       </Box>
     </Box>

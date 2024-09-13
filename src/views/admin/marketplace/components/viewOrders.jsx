@@ -162,7 +162,7 @@ const OrderList = () => {
 
 // Create Order Modal Component
 const CreateOrderModal = ({ isOpen, onClose }) => (
-  <Modal isOpen={isOpen} onClose={onClose}>
+  <Modal isOpen={isOpen} onClose={onClose} size="2xl">
     <ModalOverlay />
     <ModalContent>
       <ModalCloseButton />

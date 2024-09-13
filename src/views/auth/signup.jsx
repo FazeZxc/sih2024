@@ -70,7 +70,7 @@ export function SignUp() {
           <Heading as="h1" size="xl" color="teal.400">
             Create An Account
           </Heading>
-          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }} >
+          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             <VStack spacing={4} align="stretch">
               <FormControl isInvalid={errors.displayName}>
                 <FormLabel htmlFor="displayName">Display Name</FormLabel>
@@ -80,7 +80,6 @@ export function SignUp() {
                   {...register("displayName", {
                     required: "Display name is required",
                   })}
-                  
                 />
                 {errors.displayName && (
                   <Text color="red.500" fontSize="sm">
@@ -140,11 +139,24 @@ export function SignUp() {
                   </Text>
                 )}
               </FormControl>
-              <Button type="submit" colorScheme="teal" size="lg" width="100%" fontFamily="monospace">
+              <Button
+                type="submit"
+                colorScheme="teal"
+                size="lg"
+                width="100%"
+                fontFamily="monospace"
+              >
                 Sign Up
               </Button>
             </VStack>
           </form>
+          <Text fontSize="sm" fontFamily="monospace">
+            Already have an account?{" "}
+            <Link color="teal.500" href="/sign-in">
+              Sign in
+            </Link>
+          </Text>
+          <Text>- - - or - - -</Text>
           <Button
             onClick={firebase.signInWithGoogle}
             colorScheme="red"
@@ -155,12 +167,6 @@ export function SignUp() {
           >
             Sign In with Google
           </Button>
-          <Text fontSize="sm" fontFamily="monospace">
-            Already have an account?{" "}
-            <Link color="teal.500" href="/sign-in">
-              Sign in
-            </Link>
-          </Text>
         </VStack>
       </Box>
     </Box>

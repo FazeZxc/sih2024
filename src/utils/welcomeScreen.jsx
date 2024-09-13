@@ -21,12 +21,21 @@ export const WelcomeScreen = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      height="100vh"
+      height="98vh"
       bg="gray.50"
+      fontFamily="monospace"
+      border="4px"
+      borderColor="teal"
+      m={2}
     >
       <VStack spacing={8} textAlign="center">
-        <Heading fontSize="4xl" color="teal.500">
-          Welcome to Drug Inventory Management System
+        <Heading
+          fontSize="6xl"
+          color="teal.500"
+          fontFamily="monospace"
+          fontWeight="bold"
+        >
+          Drug Inventory Management System
         </Heading>
         <Text fontSize="lg" color="gray.600" maxW="md">
           Streamline your drug distribution with efficient inventory, order, and
