@@ -111,12 +111,12 @@ const OrderList = () => {
                 <Td>{order.id}</Td>
                 <Td>{order.customerId}</Td>
                 <Td>{order.status}</Td>
-                <Td>${order.totalAmount}</Td>
+                <Td>₹{order.totalAmount}</Td>
                 <Td>
                   <UnorderedList>
                     {order.items.map((item, index) => (
                       <ListItem key={index}>
-                        {item.name} - {item.quantity} x ${item.price} = $
+                        {item.name} - {item.quantity} x ₹{item.price} = ₹
                         {item.quantity * item.price}
                       </ListItem>
                     ))}

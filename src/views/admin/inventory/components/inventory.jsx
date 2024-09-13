@@ -43,7 +43,7 @@ const InventoryManagement = () => {
           boxShadow="md"
           borderRadius={20}
         >
-          <Heading as="h2" size="lg" mb={4}>
+          <Heading as="h2" size="lg" mb={4} fontFamily="monospace">
             Inventory List
           </Heading>
           <InventoryList onUpdateClick={handleUpdateClick} />

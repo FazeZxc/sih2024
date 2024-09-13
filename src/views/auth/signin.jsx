@@ -96,8 +96,9 @@ export function SignIn() {
         p={8}
         rounded="md"
         shadow="lg"
-        maxWidth="400px"
+        maxWidth="800px"
         width="100%"
+        boxSize="xl"
       >
         <VStack spacing={6}>
           <Heading as="h1" size="xl" color="teal">
@@ -166,13 +167,13 @@ export function SignIn() {
             width="100%"
           >
             Sign In with Google
+          </Button>
           <Text fontSize="sm">
             Don't have an account?{" "}
             <Link color="teal.400" href="sign-up">
               Sign up
             </Link>
           </Text>
-          </Button>
         </VStack>
       </Box>
     </Box>
