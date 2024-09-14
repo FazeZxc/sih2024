@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 // Chakra Imports
 import {
@@ -13,11 +14,9 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button,
   IconButton,
 } from "@chakra-ui/react";
 // Custom Components
@@ -30,6 +29,7 @@ import { BellIcon } from "@chakra-ui/icons";
 import { Notifications } from "../../utils/notifications";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 export default function HeaderLinks(props) {
   const { secondary } = props;
   const firebase = useFirebase();
@@ -46,6 +46,7 @@ export default function HeaderLinks(props) {
   );
   const [color, setColor] = useState("teal");
   const [notifications, setNotifications] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     const unsubscribe = onSnapshot(
       collection(firebase.firestoreDB, "notifications"),
@@ -96,7 +97,6 @@ export default function HeaderLinks(props) {
         ></Flex>
       </Flex>
       <SidebarResponsive routes={routes} />
-
       <NotificationModal color={color} />
       <Menu>
         <MenuButton p="0px">
@@ -140,7 +140,9 @@ export default function HeaderLinks(props) {
               borderRadius="8px"
               px="14px"
             >
-              <Text fontSize="sm">Profile Settings</Text>
+              <Text fontSize="sm" onClick={() => navigate("/admin/profile")}>
+                Profile Settings
+              </Text>
             </MenuItem>
 
             <MenuItem

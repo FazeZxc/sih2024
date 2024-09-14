@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import MiniStatistics from "../../../components/card/MiniStatistics";
 import { Box, SimpleGrid, Icon } from "@chakra-ui/react";
-import { MdAttachMoney, MdBarChart, MdFileCopy } from "react-icons/md";
+import { MdBarChart, MdFileCopy } from "react-icons/md";
 import { useFirebase } from "../../../context/firebase";
 
 export default function Dashboard() {
@@ -24,7 +24,7 @@ export default function Dashboard() {
     );
 
     const unsubscribeSupplier = onSnapshot(
-      collection(firebase.firestoreDB, "supplier"),
+      collection(firebase.firestoreDB, "suppliers"),
       (snapshot) => {
         const totalSuppliers = snapshot.size;
         setStatistics((prev) => ({ ...prev, totalSuppliers }));
@@ -77,7 +77,7 @@ export default function Dashboard() {
             <Icon w="32px" h="32px" as={MdBarChart} color="brand.500" />
           }
           name="Suppliers"
-          value={statistics.totalInventory}
+          value={statistics.totalSuppliers}
         />
         <MiniStatistics
           growth="+2"
