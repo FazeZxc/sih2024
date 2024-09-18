@@ -29,18 +29,19 @@ export const WelcomeScreenLoggedIn = () => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      bg="gray.50"
+      bg="black"
+      fontFamily="monospace"
     >
       <VStack spacing={8} textAlign="center">
-        <Heading fontSize="4xl" color="teal.500">
+        <Heading fontSize="6xl" color="white" fontWeight="bold" paddingX={200}>
           Welcome to Drug Inventory Management System
         </Heading>
-        <Text fontSize="lg" color="gray.600" maxW="md">
+        <Text fontSize="lg" color="gold" maxW="md">
           Streamline your drug distribution with efficient inventory, order, and
           supplier management in real time.
         </Text>
 
-        <HStack spacing={10}>
+        <HStack spacing={10} color="white">
           <VStack>
             <Icon as={MdOutlineLocalPharmacy} w={16} h={16} color="teal.400" />
             <Text>Manage Inventory</Text>
@@ -54,7 +55,7 @@ export const WelcomeScreenLoggedIn = () => {
             <Text>Manage Users</Text>
           </VStack>
         </HStack>
-        {loading ? <Spinner color="teal.400" /> : navigate("/admin")}
+        {loading ? <Spinner color="white" /> : navigate("/admin")}
       </VStack>
     </Box>
   );

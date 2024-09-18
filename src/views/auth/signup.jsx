@@ -67,7 +67,7 @@ export function SignUp() {
         width="100%"
       >
         <VStack spacing={6}>
-          <Heading as="h1" size="xl" color="teal.400">
+          <Heading as="h1" size="xl" color="teal.400" fontFamily="monospace">
             Create An Account
           </Heading>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
